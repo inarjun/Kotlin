@@ -1,2 +1,1 @@
-# Kotlin
-Kotlin, Firebase, PostgreSQL
+# iKotlin
