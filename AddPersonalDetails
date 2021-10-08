@@ -1,0 +1,45 @@
+package com.example.testregistertwo
+
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.widget.Button
+import android.widget.EditText
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+
+class AddPersonalDetails : AppCompatActivity() {
+
+    var mAuth: FirebaseAuth? = null
+
+    var databaseRef:FirebaseDatabase?=null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_add_personal_details)
+
+        mAuth = FirebaseAuth.getInstance()
+
+        databaseRef=FirebaseDatabase.getInstance()
+        val ref=databaseRef?.reference!!.child("profile")
+
+
+        val saveProfileInfo: Button = findViewById(R.id.saveProfileInfo)
+        val firstNameInput: EditText = findViewById(R.id.firstNameInput)
+        val lastNameInput: EditText = findViewById(R.id.lastNameInput)
+        val emailInput: EditText = findViewById(R.id.emailInput)
+
+        saveProfileInfo.setOnClickListener {
+            val firstName = firstNameInput.text.toString()
+            val lastName = lastNameInput.text.toString()
+            val email = emailInput.text.toString()
+
+            val tableRef=ref.child(mAuth?.currentUser?.uid!!)
+            tableRef?.child("first_name").setValue(firstName)
+            tableRef?.child("last_name").setValue(lastName)
+            tableRef?.child("email").setValue(email)
+
+            finish()
+        }
+    }
+}
